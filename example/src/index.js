@@ -5,8 +5,18 @@ import App from './App';
 import { initializeStore } from './lib';
 
 initializeStore({
-  username: '',
-  todos: []
+  initialStore: {
+    username: '',
+    todos: []
+  },
+  persist: {
+    storage: window.localStorage,
+    restore: savedStore => {
+      return {
+        todos: savedStore.todos || []
+      };
+    }
+  }
 });
 
 render(<App />, document.getElementById('app'));

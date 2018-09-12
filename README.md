@@ -4,15 +4,15 @@
 
 State management library for inferno built on top of [fluxible-js](https://github.com/aprilmintacpineda/fluxible-js). [See demo](https://aprilmintacpineda.github.io/inferno-fluxible/).
 
-## Guide
+# Guide
 
 `inferno-fluxible` is related to [inferno-context-api-store](https://github.com/aprilmintacpineda/inferno-context-api-store) and [redux](https://github.com/reduxjs/redux). Except in `inferno-fluxible`, there's no need for a provider.
 
-#### Install
+### Install
 
 `npm i -s inferno-fluxible`
 
-#### Initialize store
+### Initialize store
 
 ```jsx
 import { initializeStore } from 'inferno-fluxible';
@@ -44,7 +44,7 @@ There's also the optional property called `persist` which should also be an obje
 
 Persist feature would only save keys that were returned by `config.persist.restore`. That means, other states that you did not return in that method wouldn't be saved.
 
-###### Example
+##### Example
 
 ```js
 import { initializeStore } from 'fluxible-js';
@@ -68,7 +68,7 @@ initializeStore({
 
 In the case above, only `user` would be saved and the rest wouldn't be saved.
 
-#### Connect your components to the store
+### Connect your components to the store
 
 ```jsx
 import { connect } from 'inferno-fluxible';
@@ -131,15 +131,15 @@ Vice versa with `mapStateToProps` like so:
 export default connect(mapStateToProps)(MyComponent);
 ```
 
-#### Mutations
+### Mutations
 
 When you call a mutation, you can provide arguments. Except you have to keep in mind that the first parameter that your function would receive is the object called `store`. The `store` has `getStore` and `updateStore` methods.
 
-###### `store.getStore`
+##### `store.getStore`
 
 Method which you can call anytime to get the latest `store` at that point of call.
 
-###### `store.updateStore`
+##### `store.updateStore`
 
 Method which you can call anytime to update a specific part of the `store`. It expects an object as the first parameter, the object should contain the states that you want to update.
 
@@ -153,7 +153,7 @@ const mutations = {
 
 In the example code above, when you call `this.props.updateAnotherState`, it would only update `anotherState` key of the store, the rest would remains as they were before the update. The method also expects a function as an optional second parameter that would be called **after** the update but **before** persist (if you use persist).
 
-#### getStore module
+### getStore module
 
 The `getStore` module is a function that you can call anytime to get the latest store at that point of call.
 
@@ -167,9 +167,23 @@ function notConnectedToStoreFunc() {
 }
 ```
 
+# Migrating from inferno-context-api-store
+
+The difference here is the that `inferno-context-api-store` is completely coupled to Context API. This one uses `fluxible-js` to manage state. The job of `inferno-fluxible` is only to serve as a bridge between `inferno` and `fluxible-js`.
+
+The only thing you would need to change in your existing set up is the Provider.
+
+1. `npm un -s inferno-context-api-store`
+2. Remove `Provider`.
+3. [Initialize store](#initialize-store).
+4. Replace all `import { connect } from 'inferno-context-api-store';` with `import { connect } from 'inferno-fluxible'`.
+5. Test your app.
+
+If you experienced any difficulty migrating, feel free to open an issue.
+
 # Contributing
 
-Discussions, questions, suggestions, bug reports, feature request, etc are all welcome. Just create an issue.
+Discussions, questions, suggestions, bug reports, feature request, etc are all welcome. Just create an issue. Just ensure that you are responsive enough.
 
 ---
 
