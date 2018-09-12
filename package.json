@@ -1,0 +1,57 @@
+{
+  "name": "inferno-fluxible",
+  "version": "1.0.0",
+  "description": "State management library for inferno built on top of fluxible-js.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "jest",
+    "eslint": "eslint \"src/**/*.js\" \"example/src/**/*.js\" --fix",
+    "prettier": "prettier \"src/**/*.js\" \"example/src/**/*.js\" --write",
+    "lint": "npm run prettier && npm run eslint",
+    "build": "node build.js",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "example/src/**/*.js": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gh_personal:aprilmintacpineda/inferno-fluxible.git"
+  },
+  "keywords": [
+    "inferno-js",
+    "fluxible-js",
+    "state-management",
+    "store-management",
+    "stateful"
+  ],
+  "author": "April Mintac Pineda",
+  "license": "MIT",
+  "dependencies": {
+    "fluxible-js": "^1.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^9.0.0",
+    "babel-plugin-inferno": "^5.1.0",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-minify": "^0.4.3",
+    "eslint": "^5.5.0",
+    "eslint-plugin-inferno": "^7.10.0",
+    "inferno": "^5.6.1",
+    "lint-staged": "^7.2.2",
+    "prettier": "^1.14.2"
+  }
+}

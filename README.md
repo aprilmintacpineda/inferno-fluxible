@@ -1,2 +1,3 @@
 # inferno-fluxible
-Inferno connector for fluxible-js
+
+State management library for inferno built on top of fluxible-js.
