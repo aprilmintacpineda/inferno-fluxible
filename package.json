@@ -11,6 +11,12 @@
     "build": "node build.js",
     "precommit": "lint-staged"
   },
+  "files": [
+    "lib/*",
+    "README.md",
+    "package.json",
+    "LICENSE"
+  ],
   "lint-staged": {
     "src/**/*.js": [
       "prettier --write",
