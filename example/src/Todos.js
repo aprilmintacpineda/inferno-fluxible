@@ -11,19 +11,20 @@ class Todos extends Component {
         {this.props.todos.length ? (
           this.props.todos.map((todo, i) => {
             return (
-              <p
-                key={i}
-                className="done"
-                checked={todo.isDone}
-                onChange={ev => {
-                  this.props.updateIsDone(ev.target.checked, i);
-                }}>
+              <p key={i} className="done">
                 <span
                   onClick={() => this.props.deleteTodo(i)}
                   style="cursor: pointer; color: white; padding: 2px; border-radius: 4px; background-color: red; margin-right: 5px;">
                   x
                 </span>
-                <input type="checkbox" style="margin-right: 5px;" />
+                <input
+                  type="checkbox"
+                  style="margin-right: 5px;"
+                  checked={todo.isDone}
+                  onChange={ev => {
+                    this.props.updateIsDone(ev.target.checked, i);
+                  }}
+                />
                 {todo.isDone ? <s>{todo.value}</s> : todo.value}
               </p>
             );
