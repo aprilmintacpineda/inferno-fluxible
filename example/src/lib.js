@@ -53,7 +53,7 @@ function connect(wantedState, wantedMutations) {
       }, {
         key: 'render',
         value: function render() {
-          return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, WrappedComponent, _extends({}, wantedState ? wantedState((0, _fluxibleJs.getStore)()) : {}, wantedMutations ? Object.keys(wantedMutations).reduce(function (mutationCollection, mutation) {
+          return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, WrappedComponent, _extends({}, this.props, wantedState ? wantedState((0, _fluxibleJs.getStore)()) : {}, wantedMutations ? Object.keys(wantedMutations).reduce(function (mutationCollection, mutation) {
             return _extends({}, mutationCollection, _defineProperty({}, mutation, function () {
               for (var _len = arguments.length, payload = Array(_len), _key = 0; _key < _len; _key++) {
                 payload[_key] = arguments[_key];
