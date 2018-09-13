@@ -1,7 +1,7 @@
 {
   "name": "inferno-fluxible",
   "version": "1.0.6",
-  "description": "State management library for inferno built on top of fluxible-js.",
+  "description": "Smaller, faster, better. A small state management system that supports the idea of asynchronous actions and state persistence out of the box. Built on top of fluxible-js.",
   "main": "lib/index.js",
   "scripts": {
     "test": "jest",
@@ -42,8 +42,8 @@
   ],
   "author": "April Mintac Pineda",
   "license": "MIT",
-  "dependencies": {
-    "fluxible-js": "^1.0.6",
+  "peerDependencies": {
+    "fluxible-js": "^2.1.1",
     "inferno": "^5.6.1"
   },
   "devDependencies": {

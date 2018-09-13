@@ -2,7 +2,7 @@
 
 import { render } from 'inferno';
 import App from './App';
-import { initializeStore } from './lib';
+import { initializeStore } from 'fluxible-js';
 
 initializeStore({
   initialStore: {
