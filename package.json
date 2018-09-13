@@ -42,7 +42,7 @@
   ],
   "author": "April Mintac Pineda",
   "license": "MIT",
-  "peerDependencies": {
+  "dependencies": {
     "fluxible-js": "^2.1.1",
     "inferno": "^5.6.1"
   },
