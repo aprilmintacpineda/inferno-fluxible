@@ -2,6 +2,7 @@
 
 import { updateStore, addUpdateListener, getStore } from 'fluxible-js';
 import { Component } from 'inferno';
+import redefineStatics from 'redefine-statics-js';
 
 /**
  *
@@ -27,7 +28,7 @@ export function dispatch (mutation, ...payload) {
  * @return {Object} the inferno component.
  */
 export function connect (mapStatesToProps, definedMutations) {
-  return WrappedComponent =>
+  return WrappedComponent => {
     class Wrapper extends Component {
       constructor (props) {
         super(props);
@@ -64,5 +65,18 @@ export function connect (mapStatesToProps, definedMutations) {
           />
         );
       }
-    };
+    }
+
+    return redefineStatics(Wrapper, WrappedComponent, [
+      'childContextTypes',
+      'contextTypes',
+      'defaultProps',
+      'displayName',
+      'getDefaultProps',
+      'getDerivedStateFromProps',
+      'mixins',
+      'propTypes',
+      'type'
+    ]);
+  };
 }
