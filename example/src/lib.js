@@ -99,6 +99,6 @@ function connect(mapStatesToProps, definedMutations) {
       return Wrapper;
     }(_inferno.Component);
 
-    return (0, _redefineStaticsJs2.default)(Wrapper, WrappedComponent, ['childContextTypes', 'contextTypes', 'defaultProps', 'displayName', 'getDefaultProps', 'getDerivedStateFromProps', 'mixins', 'propTypes', 'type']);
+    return (0, _redefineStaticsJs2.default)(Wrapper, WrappedComponent);
   };
 }
