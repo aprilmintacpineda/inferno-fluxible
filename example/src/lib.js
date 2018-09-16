@@ -8,6 +8,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+exports.dispatch = dispatch;
 exports.connect = connect;
 
 var _inferno = require('inferno');
@@ -24,6 +25,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /**
  *
+ * @param {Function} callback function that would be called sa the mutation handler.
+ * @param  {...any} payload to the callback function
+ */
+function dispatch(mutation) {
+  for (var _len = arguments.length, payload = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    payload[_key - 1] = arguments[_key];
+  }
+
+  return mutation.apply(undefined, [{
+    getStore: _fluxibleJs.getStore,
+    updateStore: function updateStore(updatedState, callback) {
+      (0, _fluxibleJs.updateStore)(updatedState);
+      if (callback) callback();
+    }
+  }].concat(payload));
+}
+
+/**
  * @param {Function} Would receive the current store's state as the only argument. Should return an object of the states that you want to be accessible in the connected component.
  * @param {Object} You should define your action handlers here. Each methods would be called with an object (that has `updateStore` and `getStore` methods) as the first argument. The rest would be the arguments you passed to the call.
  * @return {Object} the inferno component.
@@ -61,17 +80,11 @@ function connect(mapStatesToProps, definedMutations) {
         value: function render() {
           return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, WrappedComponent, _extends({}, this.props, mapStatesToProps ? mapStatesToProps((0, _fluxibleJs.getStore)()) : {}, definedMutations ? Object.keys(definedMutations).reduce(function (mutationCollection, mutation) {
             return _extends({}, mutationCollection, _defineProperty({}, mutation, function () {
-              for (var _len = arguments.length, payload = Array(_len), _key = 0; _key < _len; _key++) {
-                payload[_key] = arguments[_key];
+              for (var _len2 = arguments.length, payload = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                payload[_key2] = arguments[_key2];
               }
 
-              return definedMutations[mutation].apply(definedMutations, [{
-                getStore: _fluxibleJs.getStore,
-                updateStore: function updateStore(updatedState, callback) {
-                  (0, _fluxibleJs.updateStore)(updatedState);
-                  if (callback) callback();
-                }
-              }].concat(payload));
+              return dispatch.apply(undefined, [definedMutations[mutation]].concat(payload));
             }));
           }, {}) : {})));
         }
