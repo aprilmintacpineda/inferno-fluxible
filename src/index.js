@@ -44,8 +44,14 @@ export function connect (mapStatesToProps, definedMutations) {
     class Wrapper extends Component {
       constructor (props) {
         super(props);
+        this.state = {
+          count: 0
+        };
+
         this.removeListener = addUpdateListener(() => {
-          this.setState();
+          this.setState({
+            count: this.state.count + 1
+          });
         });
       }
 
