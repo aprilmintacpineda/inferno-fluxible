@@ -1,33 +1,36 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 exports.dispatch = dispatch;
 exports.connect = connect;
 
-var _inferno = require('inferno');
+var _inferno = require("inferno");
 
-var _fluxibleJs = require('fluxible-js');
+var _fluxibleJs = require("fluxible-js");
 
-var _redefineStaticsJs = require('redefine-statics-js');
-
-var _redefineStaticsJs2 = _interopRequireDefault(_redefineStaticsJs);
+var _redefineStaticsJs = _interopRequireDefault(require("redefine-statics-js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /** @format */
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 /**
  *
@@ -35,11 +38,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * @param  {...any} payload to the callback function
  */
 function dispatch(mutation) {
-  for (var _len = arguments.length, payload = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+  for (var _len = arguments.length, payload = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     payload[_key - 1] = arguments[_key];
   }
 
-  return mutation.apply(undefined, [{
+  return mutation.apply(void 0, [{
     getStore: _fluxibleJs.getStore,
     updateStore: function updateStore(updatedState, callback) {
       (0, _fluxibleJs.updateStore)(updatedState);
@@ -47,58 +50,68 @@ function dispatch(mutation) {
     }
   }].concat(payload));
 }
-
 /**
  * @param {Function} Would receive the current store's state as the only argument. Should return an object of the states that you want to be accessible in the connected component.
  * @param {Object} You should define your action handlers here. Each methods would be called with an object (that has `updateStore` and `getStore` methods) as the first argument. The rest would be the arguments you passed to the call.
  * @return {Object} the inferno component.
  */
+
+
 function connect(mapStatesToProps, definedMutations) {
   return function (WrappedComponent) {
-    var Wrapper = function (_Component) {
+    // we only want to compute mutations once
+    var mutations = {};
+
+    if (definedMutations) {
+      (function () {
+        var mutationKeys = Object.keys(definedMutations);
+
+        var _loop = function _loop(a) {
+          mutations[mutationKeys[a]] = function () {
+            for (var _len2 = arguments.length, payload = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+              payload[_key2] = arguments[_key2];
+            }
+
+            return dispatch.apply(void 0, [definedMutations[mutationKeys[a]]].concat(payload));
+          };
+        };
+
+        for (var a = 0; a < mutationKeys.length; a++) {
+          _loop(a);
+        }
+      })();
+    }
+
+    var Wrapper =
+    /*#__PURE__*/
+    function (_Component) {
       _inherits(Wrapper, _Component);
 
       function Wrapper(props) {
+        var _this;
+
         _classCallCheck(this, Wrapper);
 
-        var _this = _possibleConstructorReturn(this, (Wrapper.__proto__ || Object.getPrototypeOf(Wrapper)).call(this, props));
+        _this = _possibleConstructorReturn(this, _getPrototypeOf(Wrapper).call(this, props));
 
-        _this.state = {
-          count: 1
+        _this.componentWillUnmount = function () {
+          // clean update listener before we unmount.
+          _this.removeListener();
+        };
+
+        _this.render = function () {
+          return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, WrappedComponent, _objectSpread({}, _this.props, mapStatesToProps ? mapStatesToProps((0, _fluxibleJs.getStore)()) : {}, mutations)));
         };
 
         _this.removeListener = (0, _fluxibleJs.addUpdateListener)(function () {
-          _this.setState({
-            count: _this.state.count + 1
-          });
+          _this.setState();
         });
         return _this;
       }
 
-      _createClass(Wrapper, [{
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-          // clean update listener before we unmount.
-          this.removeListener();
-        }
-      }, {
-        key: 'render',
-        value: function render() {
-          return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, WrappedComponent, _extends({}, this.props, mapStatesToProps ? mapStatesToProps((0, _fluxibleJs.getStore)()) : {}, definedMutations ? Object.keys(definedMutations).reduce(function (mutationCollection, mutation) {
-            return _extends({}, mutationCollection, _defineProperty({}, mutation, function () {
-              for (var _len2 = arguments.length, payload = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                payload[_key2] = arguments[_key2];
-              }
-
-              return dispatch.apply(undefined, [definedMutations[mutation]].concat(payload));
-            }));
-          }, {}) : {})));
-        }
-      }]);
-
       return Wrapper;
     }(_inferno.Component);
 
-    return (0, _redefineStaticsJs2.default)(Wrapper, WrappedComponent);
+    return (0, _redefineStaticsJs.default)(Wrapper, WrappedComponent);
   };
 }

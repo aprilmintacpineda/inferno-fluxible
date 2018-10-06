@@ -1,19 +1,29 @@
 /** @format */
 
-const babelCore = require('babel-core');
+const babelCore = require('@babel/core');
 const path = require('path');
 const fs = require('fs');
 
 const source = fs.readFileSync(path.join(__dirname, '/src/index.js'), 'utf8');
 const code = babelCore.transform(source, {
   babelrc: false,
-  presets: ['env', 'flow'],
-  plugins: ['transform-object-rest-spread', 'babel-plugin-inferno', 'syntax-jsx']
+  presets: ['@babel/preset-env', '@babel/preset-flow'],
+  plugins: [
+    ['@babel/plugin-proposal-class-properties', { loose: true }],
+    '@babel/plugin-syntax-object-rest-spread',
+    'babel-plugin-inferno',
+    '@babel/plugin-syntax-jsx'
+  ]
 }).code;
 const codeMin = babelCore.transform(source, {
   babelrc: false,
-  presets: ['env', 'flow', 'minify'],
-  plugins: ['transform-object-rest-spread', 'babel-plugin-inferno', 'syntax-jsx']
+  presets: ['@babel/preset-env', '@babel/preset-flow', 'minify'],
+  plugins: [
+    ['@babel/plugin-proposal-class-properties', { loose: true }],
+    '@babel/plugin-syntax-object-rest-spread',
+    'babel-plugin-inferno',
+    '@babel/plugin-syntax-jsx'
+  ]
 }).code;
 
 fs.writeFileSync(path.join(__dirname, '/lib/index.js'), code, 'utf8');

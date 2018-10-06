@@ -114,7 +114,9 @@ export default connect(
 )(MyComponent);
 ```
 
-`mapStateToProps` should be a function that should return the state that you want to be accessible in the connected component. `mutations` should be an object that has methods in it. The methods would be the ones you can call to update a specific part of the store.
+`mapStateToProps` should be a function that should return the state that you want to be accessible in the connected component.
+
+`mutations` should be an object that has methods in it. The methods would be the ones you can call to update a specific part of the store. Mutation object is expected to be constant.
 
 Both `mapStateToProps`, `mutations` are optional. That mean you can specify `mutations` but not `mapStateToProps` like so:
 
