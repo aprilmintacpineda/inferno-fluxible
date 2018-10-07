@@ -57,7 +57,7 @@ export function connect (mapStatesToProps, definedMutations) {
         },
         componentWillUnmount () {
           // clean update listener before we unmount.
-          this.removeListener();
+          if (this.removeListener) this.removeListener();
         },
         render () {
           return (
