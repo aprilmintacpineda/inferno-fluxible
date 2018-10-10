@@ -44,24 +44,23 @@ export function connect (mapStatesToProps, definedMutations) {
     return redefineStatics(
       createClass({
         getInitialState () {
-          return {
-            count: 0,
-            mappedStates: mapStatesToProps ? mapStatesToProps(getStore()) : {}
-          };
-        },
-        componentWillMount () {
-          this.removeListener = addUpdateListener(() => {
-            this.setState({
-              count: this.state.count + 1,
-              mappedStates: mapStatesToProps ? mapStatesToProps(getStore()) : {}
-            });
-          });
+          if (mapStatesToProps) {
+            const mappedStates = mapStatesToProps(getStore());
+
+            this.removeListener = addUpdateListener(updatedStore => {
+              this.setState(mapStatesToProps ? mapStatesToProps(updatedStore) : {});
+            }, Object.keys(mappedStates));
+
+            return mappedStates;
+          }
+
+          return {};
         },
         componentWillUnmount () {
-          this.removeListener();
+          if (mapStatesToProps) this.removeListener();
         },
         render () {
-          return <WrappedComponent {...this.props} {...this.state.mappedStates} {...mutations} />;
+          return <WrappedComponent {...this.props} {...this.state} {...mutations} />;
         }
       }),
       WrappedComponent

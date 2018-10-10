@@ -35,14 +35,14 @@ initializeStore({
 
 instead of rendering a Provider on top of your app. What you do is before you render your app, you have to call `initializeStore` function.
 
-`initializeStore` function expects an object as the only parameter, the object have a required property called `initialStore` which would be used as the initial value of the store.
+`initializeStore` function expects an object as the only parameter, the object have a required property called `initialStore` which will be used as the initial value of the store.
 
 There's also the optional property called `persist` which should also be an object containing two required properties:
 
-- `storage` which should be a reference to the storage that would be used to save the store. It must have `getItem` and `setItem` methods. Both methods should be synchronous. Example would be `window.localStorage`. The call to `setItem` is deferred by 200ms, this is to minimize and to improve performance.
-- `restore` which should be a function that is synchronous. Restore will be called upon initialization and will receive the `savedStore` as the its only argument. The `savedStore` would be an object containing the states that were previously saved to the storage. It should return an object which would be the states that you want to restore.
+- `storage` which should be a reference to the storage that will be used to save the store. It must have `getItem` and `setItem` methods. Both methods should be synchronous. Example will be `window.localStorage`. The call to `setItem` is deferred by 200ms, this is to minimize and to improve performance.
+- `restore` which should be a function that is synchronous. Restore will be called upon initialization and will receive the `savedStore` as the its only argument. The `savedStore` will be an object containing the states that were previously saved to the storage. It should return an object which will be the states that you want to restore.
 
-Persist feature would only save keys that were returned by `config.persist.restore`. That means, other states that you did not return in that method wouldn't be saved.
+Persist feature will only save keys that were returned by `config.persist.restore`. That means, other states that you did not return in that method will not be saved.
 
 ##### Example
 
@@ -66,7 +66,7 @@ initializeStore({
 });
 ```
 
-In the case above, only `user` would be saved and the rest wouldn't be saved.
+In the case above, only `user` will be saved and the rest will not be saved.
 
 ### Connect your components to the store
 
@@ -114,9 +114,9 @@ export default connect(
 )(MyComponent);
 ```
 
-`mapStateToProps` should be a function that should return the state that you want to be accessible in the connected component.
+`mapStateToProps` _MUST_ be a function that _MUST_ return an object containing the states that you want to be accessible in the connected component as props.
 
-`mutations` should be an object that has methods in it. The methods would be the ones you can call to update a specific part of the store. Mutation object is expected to be constant.
+`mutations` _MUST_ be an object that has methods in it. The methods will be the ones you can call to update a specific part of the store. Mutation object is expected to be constant.
 
 Both `mapStateToProps`, `mutations` are optional. That mean you can specify `mutations` but not `mapStateToProps` like so:
 
@@ -133,9 +133,31 @@ Vice versa with `mapStateToProps` like so:
 export default connect(mapStateToProps)(MyComponent);
 ```
 
+##### Warnings
+
+**The returned object keys of `mapStateToProps` should not change**.
+
+i.e., make sure that the keys are always there and have been there from the start. Doing something like this will cause your component to fail in future updates:
+
+```js
+function mapStateToProps(storeState) {
+  const states = {};
+
+  if (somecondition) {
+    states.key = storeState.key;
+  }
+
+  return states;
+}
+```
+
+**Connected components that does not have `mapStateToProps` will not update**.
+
+Update listeners will only be called when a particular state that they are observing have been updated, if not, then they will not be update. Thus, having no `mapStateToProps` means that your connected component will not be updated due to store update since it is not and will not observe any states at all.
+
 ### Mutations
 
-When you call a mutation, you can provide arguments. Except you have to keep in mind that the first parameter that your function would receive is the object called `store`. The `store` has `getStore` and `updateStore` methods.
+When you call a mutation, you can provide arguments. Except you have to keep in mind that the first parameter that your function will receive is the object called `store`. The `store` has `getStore` and `updateStore` methods.
 
 ##### `store.getStore`
 
@@ -153,7 +175,7 @@ const mutations = {
 };
 ```
 
-In the example code above, when you call `this.props.updateAnotherState`, it would only update `anotherState` key of the store, the rest would remains as they were before the update. The method also expects a function as an optional second parameter that would be called **after** the update but **before** persist (if you use persist).
+In the example code above, when you call `this.props.updateAnotherState`, it will only update `anotherState` key of the store, the rest will remains as they were before the update. The method also expects a function as an optional second parameter that will be called **after** the update but **before** persist (if you use persist).
 
 ### getStore module
 
@@ -171,7 +193,7 @@ function notConnectedToStoreFunc() {
 
 ### dispatch module
 
-The `dispatch` module is a function that you can use to dispatch actions outside a connected component. It expects a callback function as the first parameter, and other parameters would be passed to the callback function as succeeding arguments.
+The `dispatch` module is a function that you can use to dispatch actions outside a connected component. It expects a callback function as the first parameter, and other parameters will be passed to the callback function as succeeding arguments.
 
 ```jsx
 import { dispatch } from 'inferno-fluxible';
@@ -193,7 +215,7 @@ function notConnectedToStoreFunc() {
 
 The difference here is the that `inferno-context-api-store` is completely coupled to Context API. This one uses `fluxible-js` to manage state. The job of `inferno-fluxible` is only to serve as a bridge between `inferno` and `fluxible-js`.
 
-The only thing you would need to change in your existing set up is the Provider.
+The only thing you will need to change in your existing set up is the Provider.
 
 1. `npm un -s inferno-context-api-store`
 2. Remove `Provider`.
