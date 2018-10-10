@@ -48,7 +48,7 @@ export function connect (mapStatesToProps, definedMutations) {
             const mappedStates = mapStatesToProps(getStore());
 
             this.removeListener = addUpdateListener(updatedStore => {
-              this.setState(mapStatesToProps ? mapStatesToProps(updatedStore) : {});
+              this.setState(mapStatesToProps(updatedStore));
             }, Object.keys(mappedStates));
 
             return mappedStates;
