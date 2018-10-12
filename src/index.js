@@ -48,38 +48,36 @@ export function connect (mapStatesToProps, definedMutations) {
             const mappedStates = mapStatesToProps(getStore());
 
             this.removeListener = addObserver(updatedStore => {
-              this.setState(mapStatesToProps(updatedStore));
+              this.setState(
+                definedMutations
+                  ? {
+                      ...this.props,
+                      ...mapStatesToProps(updatedStore),
+                      ...mutations
+                    }
+                  : {
+                      ...this.props,
+                      ...mapStatesToProps(updatedStore)
+                    }
+              );
             }, Object.keys(mappedStates));
 
-            return mappedStates;
+            return definedMutations
+              ? {
+                  ...this.props,
+                  ...mappedStates,
+                  ...mutations
+                }
+              : mappedStates;
           }
 
-          return {};
+          return definedMutations ? mutations : {};
         },
         componentWillUnmount () {
           if (this.removeListener) this.removeListener();
         },
         render () {
-          const props =
-            mapStatesToProps && definedMutations
-              ? {
-                  ...this.props,
-                  ...this.state,
-                  ...mutations
-                }
-              : mapStatesToProps
-                ? {
-                    ...this.props,
-                    ...this.state
-                  }
-                : definedMutations
-                  ? {
-                      ...this.props,
-                      ...mutations
-                    }
-                  : this.props;
-
-          return <WrappedComponent {...props} />;
+          return <WrappedComponent {...this.state} />;
         }
       }),
       WrappedComponent

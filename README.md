@@ -133,7 +133,7 @@ Vice versa with `mapStateToProps` like so:
 export default connect(mapStateToProps)(MyComponent);
 ```
 
-##### Warnings
+##### Warnings about `mapStateToProps`
 
 **The returned object keys of `mapStateToProps` should not change**.
 
