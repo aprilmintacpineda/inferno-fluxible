@@ -151,6 +151,34 @@ function mapStateToProps(storeState) {
 }
 ```
 
+**Returned object keys of `mapStateToProps` should be the same keys as the state's**
+
+Example:
+
+_do_
+
+```jsx
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    anotherState: state.anotherState
+  };
+}
+```
+
+_Don't do_
+
+```jsx
+function mapStateToProps(state) {
+  return {
+    aDifferentKey: state.user,
+    anotherState: state.anotherState
+  };
+}
+```
+
+Doing so will cause the connected component will fail to update when `state.user` gets updated.
+
 **Connected components that does not have `mapStateToProps` will not update**.
 
 Update listeners will only be called when a particular state that they are observing have been updated, if not, then they will not be update. Thus, having no `mapStateToProps` means that your connected component will not be updated due to store update since it is not and will not observe any states at all.

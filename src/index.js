@@ -1,6 +1,6 @@
 /** @format */
 
-import { updateStore, addUpdateListener, getStore } from 'fluxible-js';
+import { updateStore, addObserver, getStore } from 'fluxible-js';
 import { createClass } from 'inferno-create-class';
 import redefineStatics from 'redefine-statics-js';
 
@@ -47,7 +47,7 @@ export function connect (mapStatesToProps, definedMutations) {
           if (mapStatesToProps) {
             const mappedStates = mapStatesToProps(getStore());
 
-            this.removeListener = addUpdateListener(updatedStore => {
+            this.removeListener = addObserver(updatedStore => {
               this.setState(mapStatesToProps(updatedStore));
             }, Object.keys(mappedStates));
 
@@ -57,10 +57,29 @@ export function connect (mapStatesToProps, definedMutations) {
           return {};
         },
         componentWillUnmount () {
-          if (mapStatesToProps) this.removeListener();
+          if (this.removeListener) this.removeListener();
         },
         render () {
-          return <WrappedComponent {...this.props} {...this.state} {...mutations} />;
+          const props =
+            mapStatesToProps && definedMutations
+              ? {
+                  ...this.props,
+                  ...this.state,
+                  ...mutations
+                }
+              : mapStatesToProps
+                ? {
+                    ...this.props,
+                    ...this.state
+                  }
+                : definedMutations
+                  ? {
+                      ...this.props,
+                      ...mutations
+                    }
+                  : this.props;
+
+          return <WrappedComponent {...props} />;
         }
       }),
       WrappedComponent
