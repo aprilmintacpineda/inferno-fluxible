@@ -75,6 +75,8 @@ export function connect (mapStatesToProps, definedMutations) {
       _this.render = function () {
         return <WrappedComponent {..._this.props} {..._this.state} />;
       };
+
+      return _this;
     }
 
     ConnectedComponent.prototype = Component.prototype;
