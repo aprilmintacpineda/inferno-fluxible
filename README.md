@@ -166,7 +166,7 @@ function mapStateToProps(state) {
 }
 ```
 
-_Don't do_
+_Don't do_: Doing so will cause the connected component to fail to update when `state.user` gets updated.
 
 ```jsx
 function mapStateToProps(state) {
@@ -176,8 +176,6 @@ function mapStateToProps(state) {
   };
 }
 ```
-
-Doing so will cause the connected component will fail to update when `state.user` gets updated.
 
 **Connected components that does not have `mapStateToProps` will not update**.
 
