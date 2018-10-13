@@ -79,7 +79,7 @@ function connect(mapStatesToProps, definedMutations) {
           this.removeListener = (0, _fluxibleJs.addObserver)(function (updatedStore) {
             _this.setState(definedMutations ? _objectSpread({}, mapStatesToProps(updatedStore), mutations) : mapStatesToProps(updatedStore));
           }, Object.keys(mappedStates));
-          return definedMutations ? _objectSpread({}, this.props, mappedStates, mutations) : mappedStates;
+          return definedMutations ? _objectSpread({}, mappedStates, mutations) : mappedStates;
         }
 
         return definedMutations ? mutations : {};

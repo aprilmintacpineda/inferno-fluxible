@@ -60,7 +60,6 @@ export function connect (mapStatesToProps, definedMutations) {
 
             return definedMutations
               ? {
-                  ...this.props,
                   ...mappedStates,
                   ...mutations
                 }

@@ -13,7 +13,12 @@ class Todos extends Component {
             return (
               <p key={i} className="done">
                 <span
-                  onClick={() => this.props.deleteTodo(i)}
+                  onClick={() => {
+                    // eslint-disable-next-line
+                    console.log('onClick called');
+
+                    this.props.deleteTodo(i);
+                  }}
                   style="cursor: pointer; color: white; padding: 2px; border-radius: 4px; background-color: red; margin-right: 5px;">
                   x
                 </span>
@@ -54,6 +59,9 @@ export default connect(
       });
     },
     deleteTodo (store, targetIndex) {
+      // eslint-disable-next-line
+      console.log('deleteTodo called');
+
       store.updateStore({
         todos: store.getStore().todos.filter((_, i) => i !== targetIndex)
       });

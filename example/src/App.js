@@ -83,7 +83,6 @@ export default connect(
         username
       });
     },
-
     addTodo (store, value) {
       store.updateStore({
         todos: store.getStore().todos.concat({
