@@ -10,8 +10,6 @@ var _inferno = require("inferno");
 
 var _fluxibleJs = require("fluxible-js");
 
-var _infernoCreateClass = require("inferno-create-class");
-
 var _redefineStaticsJs = _interopRequireDefault(require("redefine-statics-js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -70,26 +68,31 @@ function connect(mapStatesToProps, definedMutations) {
       })();
     }
 
-    return (0, _redefineStaticsJs.default)((0, _infernoCreateClass.createClass)({
-      getInitialState: function getInitialState() {
-        var _this = this;
+    function ConnectedComponent() {
+      var _this = this;
 
-        if (mapStatesToProps) {
-          var mappedStates = mapStatesToProps((0, _fluxibleJs.getStore)());
-          this.removeListener = (0, _fluxibleJs.addObserver)(function (updatedStore) {
-            _this.setState(definedMutations ? _objectSpread({}, mapStatesToProps(updatedStore), mutations) : mapStatesToProps(updatedStore));
-          }, Object.keys(mappedStates));
-          return definedMutations ? _objectSpread({}, mappedStates, mutations) : mappedStates;
-        }
-
-        return definedMutations ? mutations : {};
-      },
-      componentWillUnmount: function componentWillUnmount() {
-        if (this.removeListener) this.removeListener();
-      },
-      render: function render() {
-        return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, WrappedComponent, _objectSpread({}, this.props, this.state)));
+      if (mapStatesToProps) {
+        var mappedStates = mapStatesToProps((0, _fluxibleJs.getStore)());
+        _this.removeListener = (0, _fluxibleJs.addObserver)(function (updatedStore) {
+          _this.setState(definedMutations ? _objectSpread({}, mapStatesToProps(updatedStore), mutations) : mapStatesToProps(updatedStore));
+        }, Object.keys(mappedStates));
+        _this.state = definedMutations ? _objectSpread({}, mappedStates, mutations) : mappedStates;
+      } else {
+        _this.state = definedMutations ? mutations : {};
       }
-    }), WrappedComponent);
+
+      _this.componentWillUnmount = function () {
+        if (_this.removeListener) _this.removeListener();
+      };
+
+      _this.render = function () {
+        return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, WrappedComponent, _objectSpread({}, _this.props, _this.state)));
+      };
+    }
+
+    ConnectedComponent.prototype = _inferno.Component.prototype;
+    ConnectedComponent.prototype.constructor = ConnectedComponent;
+    (0, _redefineStaticsJs.default)(ConnectedComponent, WrappedComponent);
+    return ConnectedComponent;
   };
 }
