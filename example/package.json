@@ -4,13 +4,20 @@
   "private": true,
   "dependencies": {
     "fluxible-js": "^3.1.1",
-    "inferno": "^5.6.1",
-    "inferno-scripts": "6.3.2"
+    "inferno": "^6.0.1",
+    "inferno-scripts": "7.0.2"
   },
   "scripts": {
+    "reinstallNodeModules": "rm -rf package-lock.json node_modules && npm i",
     "start": "inferno-scripts start",
     "build": "inferno-scripts build",
     "test": "inferno-scripts test --env=jsdom",
     "eject": "inferno-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

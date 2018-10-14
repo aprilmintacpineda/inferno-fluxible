@@ -9,7 +9,6 @@ const code = babelCore.transform(source, {
   babelrc: false,
   presets: ['@babel/preset-env', '@babel/preset-flow'],
   plugins: [
-    ['@babel/plugin-proposal-class-properties', { loose: true }],
     '@babel/plugin-syntax-object-rest-spread',
     'babel-plugin-inferno',
     '@babel/plugin-syntax-jsx'
@@ -17,9 +16,9 @@ const code = babelCore.transform(source, {
 }).code;
 const codeMin = babelCore.transform(source, {
   babelrc: false,
+  comments: false,
   presets: ['@babel/preset-env', '@babel/preset-flow', 'minify'],
   plugins: [
-    ['@babel/plugin-proposal-class-properties', { loose: true }],
     '@babel/plugin-syntax-object-rest-spread',
     'babel-plugin-inferno',
     '@babel/plugin-syntax-jsx'

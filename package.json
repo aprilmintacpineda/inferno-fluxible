@@ -4,6 +4,7 @@
   "description": "Smaller, faster, better. A small state management system that supports the idea of asynchronous actions and state persistence out of the box. Built on top of fluxible-js.",
   "main": "lib/index.js",
   "scripts": {
+    "reinstallNodeModules": "rm -rf package-lock.json node_modules && npm i",
     "test": "jest",
     "eslint": "eslint \"src/**/*.js\" \"example/src/**/*.js\" --fix",
     "prettier": "prettier \"src/**/*.js\" \"example/src/**/*.js\" --write",
@@ -44,20 +45,19 @@
   "license": "MIT",
   "dependencies": {
     "fluxible-js": "^3.1.1",
-    "inferno": "^5.6.1",
+    "inferno": "^6.0.1",
     "redefine-statics-js": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "@babel/plugin-syntax-object-rest-spread": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-flow": "^7.0.0",
     "babel-core": "^6.26.3",
-    "babel-eslint": "^9.0.0",
-    "babel-plugin-inferno": "^5.1.0",
-    "babel-preset-minify": "^0.4.3",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-inferno": "^6.0.0",
+    "babel-preset-minify": "^0.5.0",
     "eslint": "^5.7.0",
     "eslint-plugin-inferno": "^7.10.0",
     "lint-staged": "^7.3.0",
