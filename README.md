@@ -133,6 +133,8 @@ Vice versa with `mapStateToProps` like so:
 export default connect(mapStateToProps)(MyComponent);
 ```
 
+Although you both are not required, I don't recommend connecting a component but not having both `mapStateToProps` and `mutations`.
+
 ##### Warnings about `mapStateToProps`
 
 **The returned object keys of `mapStateToProps` should not change**.
