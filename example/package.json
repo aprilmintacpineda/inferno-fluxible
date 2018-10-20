@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "fluxible-js": "^3.1.5",
+    "fluxible-js": "^3.1.6",
     "inferno": "^6.0.3",
     "inferno-scripts": "7.0.2"
   },
