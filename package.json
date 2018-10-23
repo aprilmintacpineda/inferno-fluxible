@@ -44,7 +44,7 @@
   "author": "April Mintac Pineda",
   "license": "MIT",
   "dependencies": {
-    "fluxible-js": "^3.1.6",
+    "fluxible-js": "^3.1.7",
     "inferno": "^6.0.3",
     "redefine-statics-js": "^2.0.0"
   },
