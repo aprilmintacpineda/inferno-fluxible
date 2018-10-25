@@ -15,7 +15,9 @@ export function dispatch (mutation, ...payload) {
       getStore,
       updateStore: (updatedState, callback) => {
         updateStore(updatedState);
-        if (callback) callback();
+        if (callback) {
+          callback();
+        }
       }
     },
     ...payload
@@ -30,23 +32,29 @@ export function dispatch (mutation, ...payload) {
 export function connect (mapStatesToProps, definedMutations) {
   return WrappedComponent => {
     // we only want to compute mutations once
-    let mutations;
+    const mutations = {};
     if (definedMutations) {
-      mutations = {};
-      Object.keys(definedMutations).forEach(key => {
-        mutations[key] = (...payload) => dispatch(definedMutations[key], ...payload);
-      });
+      const mutationKeys = Object.keys(definedMutations);
+
+      for (let a = 0; a < mutationKeys.length; a++) {
+        mutations[mutationKeys[a]] = (...payload) =>
+          dispatch(definedMutations[mutationKeys[a]], ...payload);
+      }
     }
 
     function ConnectedComponent (props) {
       this.props = props;
 
       if (mapStatesToProps) {
+        this.mappedStates = mapStatesToProps(getStore());
+
         this.removeListener = addObserver(() => {
+          this.mappedStates = mapStatesToProps(getStore());
+
           this.setState({
             count: this.state.count + 1
           });
-        }, Object.keys(mapStatesToProps(getStore())));
+        }, Object.keys(this.mappedStates));
 
         this.state = {
           count: 0
@@ -54,16 +62,16 @@ export function connect (mapStatesToProps, definedMutations) {
       }
 
       this.componentWillUnmount = () => {
-        if (this.removeListener) this.removeListener();
+        if (this.removeListener) {
+          this.removeListener();
+        }
       };
 
       this.render = () => {
-        if (mapStatesToProps && mutations) {
-          return (
-            <WrappedComponent {...this.props} {...mutations} {...mapStatesToProps(getStore())} />
-          );
+        if (mapStatesToProps && definedMutations) {
+          return <WrappedComponent {...this.props} {...mutations} {...this.mappedStates} />;
         } else if (mapStatesToProps) {
-          return <WrappedComponent {...this.props} {...mapStatesToProps(getStore())} />;
+          return <WrappedComponent {...this.props} {...this.mappedStates} />;
         }
 
         return <WrappedComponent {...this.props} {...mutations} />;
