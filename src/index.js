@@ -4,8 +4,38 @@ import { updateStore, addObserver, getStore } from 'fluxible-js';
 import redefineStatics from 'redefine-statics-js';
 import { Component } from 'inferno';
 
+export function mapStatesToProps (TargetComponent, callback) {
+  function ConnectedComponent () {
+    let mappedStates = callback(getStore());
+    const removeObserver = addObserver(() => {
+      mappedStates = callback(getStore());
+      this.setState({
+        count: this.state.count + 1
+      });
+    }, Object.keys(mappedStates));
+
+    this.state = {
+      count: 0
+    };
+
+    this.componentWillUnmount = removeObserver;
+    this.render = () => {
+      return <TargetComponent {...this.props} {...mappedStates} />;
+    };
+  }
+
+  ConnectedComponent.prototype = Component.prototype;
+  ConnectedComponent.prototype.constructor = ConnectedComponent;
+
+  return ConnectedComponent;
+}
+
+/*
+ * NOTICE:
+ * FUNCTIONS BELOW ARE DEPRECATED AND WILL BE REMOVED IN THE NEXT MAJOR RELEASE.
+ */
+
 /**
- *
  * @param {Function} callback function that would be called sa the mutation handler.
  * @param  {...any} payload to the callback function
  */

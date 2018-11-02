@@ -1,7 +1,7 @@
 /** @format */
 
 import { Component } from 'inferno';
-import { connect } from './lib';
+import { mapStatesToProps } from './lib';
 
 class Username extends Component {
   render () {
@@ -14,6 +14,6 @@ class Username extends Component {
   }
 }
 
-export default connect(state => ({
+export default mapStatesToProps(Username, state => ({
   username: state.username
-}))(Username);
+}));

@@ -1,7 +1,8 @@
 /** @format */
 
 import { Component } from 'inferno';
-import { connect } from './lib';
+import { mapStatesToProps } from './lib';
+import { getStore, updateStore } from 'fluxible-js';
 
 class Todos extends Component {
   render () {
@@ -13,7 +14,11 @@ class Todos extends Component {
             return (
               <p key={i} className="done">
                 <span
-                  onClick={() => this.props.deleteTodo(i)}
+                  onClick={() => {
+                    updateStore({
+                      todos: getStore().todos.filter((_, index) => index !== i)
+                    });
+                  }}
                   style="cursor: pointer; color: white; padding: 2px; border-radius: 4px; background-color: red; margin-right: 5px;">
                   x
                 </span>
@@ -22,7 +27,16 @@ class Todos extends Component {
                   style="margin-right: 5px;"
                   checked={todo.isDone}
                   onChange={ev => {
-                    this.props.updateIsDone(ev.target.checked, i);
+                    updateStore({
+                      todos: getStore().todos.map((todo, index) => {
+                        if (index !== i) return todo;
+
+                        return {
+                          ...todo,
+                          isDone: ev.target.checked
+                        };
+                      })
+                    });
                   }}
                 />
                 {todo.isDone ? <s>{todo.value}</s> : todo.value}
@@ -37,26 +51,6 @@ class Todos extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    todos: state.todos
-  }),
-  {
-    updateIsDone (store, isDone, targetIndex) {
-      store.updateStore({
-        todos: store.getStore().todos.map((todo, i) => {
-          if (i !== targetIndex) return todo;
-          return {
-            ...todo,
-            isDone
-          };
-        })
-      });
-    },
-    deleteTodo (store, targetIndex) {
-      store.updateStore({
-        todos: store.getStore().todos.filter((_, i) => i !== targetIndex)
-      });
-    }
-  }
-)(Todos);
+export default mapStatesToProps(Todos, state => ({
+  todos: state.todos
+}));
