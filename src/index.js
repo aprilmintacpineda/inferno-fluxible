@@ -7,21 +7,19 @@ import { Component } from 'inferno';
 export function mapStatesToProps (TargetComponent, callback) {
   function ConnectedComponent () {
     let mappedStates = callback(getStore());
-    const removeObserver = addObserver(() => {
+
+    this.state = {
+      count: 0
+    };
+
+    this.componentWillUnmount = addObserver(() => {
       mappedStates = callback(getStore());
       this.setState({
         count: this.state.count + 1
       });
     }, Object.keys(mappedStates));
 
-    this.state = {
-      count: 0
-    };
-
-    this.componentWillUnmount = removeObserver;
-    this.render = () => {
-      return <TargetComponent {...this.props} {...mappedStates} />;
-    };
+    this.render = () => <TargetComponent {...this.props} {...mappedStates} />;
   }
 
   ConnectedComponent.prototype = Component.prototype;
