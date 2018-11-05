@@ -20,13 +20,14 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function mapStatesToProps(TargetComponent, callback) {
-  function ConnectedComponent() {
+  function ConnectedComponent(props) {
     var _this = this;
 
-    var mappedStates = callback((0, _fluxibleJs.getStore)());
+    this.props = props;
     this.state = {
       count: 0
     };
+    var mappedStates = callback((0, _fluxibleJs.getStore)());
     this.componentWillUnmount = (0, _fluxibleJs.addObserver)(function () {
       mappedStates = callback((0, _fluxibleJs.getStore)());
 
@@ -38,6 +39,8 @@ function mapStatesToProps(TargetComponent, callback) {
     this.render = function () {
       return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, TargetComponent, _objectSpread({}, _this.props, mappedStates)));
     };
+
+    return this;
   }
 
   ConnectedComponent.prototype = _inferno.Component.prototype;
