@@ -44,23 +44,23 @@
   "author": "April Mintac Pineda",
   "license": "MIT",
   "dependencies": {
-    "fluxible-js": "^3.4.0",
-    "inferno": "^6.1.5",
+    "fluxible-js": "^3.5.0",
+    "inferno": "^6.2.1",
     "redefine-statics-js": "^2.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.5",
+    "@babel/core": "^7.1.6",
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "@babel/plugin-syntax-object-rest-spread": "^7.0.0",
-    "@babel/preset-env": "^7.1.5",
+    "@babel/preset-env": "^7.1.6",
     "@babel/preset-flow": "^7.0.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
-    "babel-plugin-inferno": "^6.0.2",
+    "babel-plugin-inferno": "^6.0.3",
     "babel-preset-minify": "^0.5.0",
-    "eslint": "^5.8.0",
+    "eslint": "^5.9.0",
     "eslint-plugin-inferno": "^7.11.0",
-    "lint-staged": "^8.0.4",
-    "prettier": "^1.15.1"
+    "lint-staged": "^8.1.0",
+    "prettier": "^1.15.2"
   }
 }

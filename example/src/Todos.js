@@ -2,7 +2,7 @@
 
 import { Component } from 'inferno';
 import { mapStatesToProps } from './lib';
-import { getStore, updateStore } from 'fluxible-js';
+import { store, updateStore } from 'fluxible-js';
 
 class Todos extends Component {
   render () {
@@ -16,7 +16,7 @@ class Todos extends Component {
                 <span
                   onClick={() => {
                     updateStore({
-                      todos: getStore().todos.filter((_, index) => index !== i)
+                      todos: store.todos.filter((_, index) => index !== i)
                     });
                   }}
                   style="cursor: pointer; color: white; padding: 2px; border-radius: 4px; background-color: red; margin-right: 5px;">
@@ -28,7 +28,7 @@ class Todos extends Component {
                   checked={todo.isDone}
                   onChange={ev => {
                     updateStore({
-                      todos: getStore().todos.map((todo, index) => {
+                      todos: store.todos.map((todo, index) => {
                         if (index !== i) return todo;
 
                         return {
