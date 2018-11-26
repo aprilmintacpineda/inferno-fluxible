@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "fluxible-js": "^3.5.0",
-    "inferno": "^6.2.1",
-    "inferno-scripts": "7.0.2"
+    "fluxible-js": "^3.5.1",
+    "inferno": "^6.3.1",
+    "inferno-scripts": "7.0.2",
+    "redefine-statics-js": "^2.0.1"
   },
   "scripts": {
     "reinstallNodeModules": "rm -rf package-lock.json node_modules && npm i",
