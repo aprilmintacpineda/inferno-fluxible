@@ -46,7 +46,7 @@
   "peerDependencies": {
     "fluxible-js": "~3.5",
     "inferno": "~6",
-    "redefine-statics-js": "^2.0.1"
+    "redefine-statics-js": "~2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
