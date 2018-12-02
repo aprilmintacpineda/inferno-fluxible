@@ -2,7 +2,7 @@
 
 # inferno-fluxible
 
-Smaller, faster, better. A small state management system that supports the idea of asynchronous actions and state persistence out of the box. Built on top of [fluxible-js](https://github.com/aprilmintacpineda/fluxible-js). [See demo](https://aprilmintacpineda.github.io/inferno-fluxible/).
+Connector for [inferno-js](https://github.com/infernojs/inferno) and [fluxible-js](https://github.com/aprilmintacpineda/fluxible-js). [See demo](https://aprilmintacpineda.github.io/inferno-fluxible/).
 
 # Install
 

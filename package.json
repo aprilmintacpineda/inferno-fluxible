@@ -1,7 +1,7 @@
 {
   "name": "inferno-fluxible",
   "version": "3.1.4",
-  "description": "Smaller, faster, better. A small state management system that supports the idea of asynchronous actions and state persistence out of the box. Built on top of fluxible-js.",
+  "description": "Connector for inferno-js and fluxible-js.",
   "main": "lib/index.js",
   "scripts": {
     "reinstallNodeModules": "rm -rf package-lock.json node_modules && npm i",
