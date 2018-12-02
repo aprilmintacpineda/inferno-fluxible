@@ -38,8 +38,9 @@
     "inferno-js",
     "fluxible-js",
     "state-management",
-    "store-management",
-    "stateful"
+    "state-pattern",
+    "asynchronous-state-management",
+    "synchronous-state-management"
   ],
   "author": "April Mintac Pineda",
   "license": "MIT",
