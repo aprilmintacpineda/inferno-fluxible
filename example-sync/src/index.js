@@ -10,10 +10,10 @@ initializeStore({
     todos: []
   },
   persist: {
-    storage: window.localStorage,
+    syncStorage: window.localStorage,
     restore: savedStore => {
       return {
-        todos: savedStore.todos || []
+        todos: savedStore.todos
       };
     }
   }

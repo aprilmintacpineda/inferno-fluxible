@@ -1,0 +1,24 @@
+{
+  "name": "example",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "fluxible-js": "^4.2.1",
+    "inferno": "^7.0.2",
+    "inferno-scripts": "7.0.4",
+    "redefine-statics-js": "^2.0.2"
+  },
+  "scripts": {
+    "reinstallNodeModules": "rm -rf package-lock.json node_modules && npm i",
+    "start": "inferno-scripts start",
+    "build": "inferno-scripts build",
+    "test": "inferno-scripts test --env=jsdom",
+    "eject": "inferno-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
