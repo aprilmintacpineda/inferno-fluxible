@@ -45,9 +45,9 @@
   "author": "April Mintac Pineda",
   "license": "MIT",
   "peerDependencies": {
-    "fluxible-js": "~4",
-    "inferno": "~7",
-    "redefine-statics-js": "~2"
+    "fluxible-js": "^4.2.2",
+    "inferno": "^7.0.2",
+    "redefine-statics-js": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
@@ -63,8 +63,5 @@
     "eslint-plugin-inferno": "^7.11.0",
     "lint-staged": "^8.1.0",
     "prettier": "^1.15.3"
-  },
-  "dependencies": {
-    "inferno": "^7.0.2"
   }
 }
