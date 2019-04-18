@@ -23,19 +23,16 @@ function mapStatesToProps(WrappedComponent, callback) {
 
     this.props = props;
     this.state = {
-      count: 0
+      mappedStates: callback(_fluxibleJs.store)
     };
-    var mappedStates = callback(_fluxibleJs.store);
     this.componentWillUnmount = (0, _fluxibleJs.addObserver)(function () {
-      mappedStates = callback(_fluxibleJs.store);
-
       _this.setState({
-        count: _this.state.count + 1
+        mappedStates: callback(_fluxibleJs.store)
       });
-    }, Object.keys(mappedStates));
+    }, Object.keys(this.state.mappedStates));
 
     this.render = function () {
-      return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, WrappedComponent, _objectSpread({}, _this.props, mappedStates)));
+      return (0, _inferno.normalizeProps)((0, _inferno.createComponentVNode)(2, WrappedComponent, _objectSpread({}, _this.props, _this.state.mappedStates)));
     };
 
     return this;

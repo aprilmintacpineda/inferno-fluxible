@@ -1,27 +1,24 @@
 /** @format */
 
+import { Component } from 'inferno';
 import { addObserver, store } from 'fluxible-js';
 import redefineStatics from 'redefine-statics-js';
-import { Component } from 'inferno';
 
 export function mapStatesToProps (WrappedComponent, callback) {
   function ConnectedComponent (props) {
     this.props = props;
 
     this.state = {
-      count: 0
+      mappedStates: callback(store)
     };
 
-    let mappedStates = callback(store);
-
     this.componentWillUnmount = addObserver(() => {
-      mappedStates = callback(store);
       this.setState({
-        count: this.state.count + 1
+        mappedStates: callback(store)
       });
-    }, Object.keys(mappedStates));
+    }, Object.keys(this.state.mappedStates));
 
-    this.render = () => <WrappedComponent {...this.props} {...mappedStates} />;
+    this.render = () => <WrappedComponent {...this.props} {...this.state.mappedStates} />;
 
     return this;
   }
