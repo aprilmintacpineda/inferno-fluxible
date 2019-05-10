@@ -7,7 +7,12 @@ const fs = require('fs');
 const source = fs.readFileSync(path.join(__dirname, '/src/index.js'), 'utf8');
 const code = babelCore.transform(source, {
   babelrc: false,
-  presets: ['@babel/preset-env', '@babel/preset-flow'],
+  presets: [
+    ['@babel/preset-env', {
+      loose: true
+    }],
+    '@babel/preset-flow'
+  ],
   plugins: [
     '@babel/plugin-syntax-object-rest-spread',
     'babel-plugin-inferno',
@@ -17,7 +22,15 @@ const code = babelCore.transform(source, {
 const codeMin = babelCore.transform(source, {
   babelrc: false,
   comments: false,
-  presets: ['@babel/preset-env', '@babel/preset-flow', 'minify'],
+  presets: [
+    ['@babel/preset-env', {
+      loose: true
+    }],
+    '@babel/preset-flow',
+    ['babel-preset-minify', {
+      builtIns: false
+    }]
+  ],
   plugins: [
     '@babel/plugin-syntax-object-rest-spread',
     'babel-plugin-inferno',

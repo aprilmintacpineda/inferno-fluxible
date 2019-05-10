@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "fluxible-js": "^4.2.1",
-    "inferno": "^7.0.2",
+    "fluxible-js": "^4.4.0",
+    "inferno": "^7.1.12",
     "inferno-scripts": "7.0.4",
     "localforage": "^1.7.3",
     "redefine-statics-js": "^2.0.2"
